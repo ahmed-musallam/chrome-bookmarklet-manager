@@ -1,0 +1,102 @@
+
+.editor {
+  height: 100%;
+  width:100%;
+  overflow: hidden;
+}
+[widgetid="save-btn"]{
+  background: #1e2054;
+  color: white;
+  border: none;
+  padding: 1em;
+  outline:0;
+}
+
+[widgetid="save-btn"]:active {
+  background: #1e3054;
+  color: #d4d2cd;
+  outline:0;
+}
+
+.bookmark{
+  display: block;
+  background: none;
+  color: #d4d2cd;
+  margin: 3px 0;
+  outline: 0;
+}
+.bookmark-children {
+  margin-left: 1em;
+  display: none;
+}
+.bookmark-children.open {
+  display: block;
+}
+.bookmark-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  outline: 0;
+}
+.bookmark-btn.toggle {
+  font-weight: bolder;
+  font-size: 1.5em;
+  font-family: monospace;
+  line-height: 0.5em;
+}
+.bookmark-btn.edit {
+
+}
+.bookmark-toggle.folder {
+  cursor: pointer;
+}
+
+
+/* Split.js styles */
+html,
+body,
+main {
+    height: 100%;
+}
+
+body {
+    padding: 8px;
+    background-color: #1e1e1e;
+    box-sizing: border-box;
+}
+.split {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.content {
+  border: 1px solid #848484;
+  color: #d4d2cd;
+  height: 100%;
+  padding: 1em;
+}
+
+.gutter {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-vertical {
+  cursor: row-resize;
+  background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=')
+}
+
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+  background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==')
+}
+
+.split.split-horizontal,
+.gutter.gutter-horizontal {
+  height: 100%;
+  float: left;
+}
