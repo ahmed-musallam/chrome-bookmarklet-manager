@@ -3,12 +3,8 @@
 </template>
 
 <script>
-import * as monaco from 'monaco-editor';
-import EditorHelper from './editor-helper'
-import JavascriptUrlParser from '../util/JavascriptUrlParser'
-
-EditorHelper.initWorkerUrls();
-
+import EditorHelper from '../util/EditorHelper'
+import JSParser  from '../util/JavascriptUrlParser'
 
 export default {
   name: "Editor",
@@ -18,15 +14,20 @@ export default {
     }
   },
   mounted () {
+    /**
+     * Watch changes to the currentBookmark and update editor
+     */
     this.$root.$watch("sharedState.currentBookmark", (newVal) => {
-      this.editor.setValue(JavascriptUrlParser.decode(newVal.url))
+      this.editor.setValue(JSParser.decode(newVal.url))
     },{
       deep: true
     })
   },
   methods: {
     init () {
-      this.editor = monaco.editor.create(this.$el, EditorHelper.getConfig())
+      // Set worker urls here, before creating an editor
+      EditorHelper.initWorkerUrls();
+      this.editor = EditorHelper.create(this.$el)
       // add overlay widget might not need it.
       this.addSaveBtn()
     },
@@ -34,25 +35,14 @@ export default {
       this.editor.layout()
     },
     addSaveBtn () {
-      this.editor.addOverlayWidget({
-        getDomNode: () => {
-          var btn = document.createElement('button');
-          btn.innerHTML = "Save";
-          btn.onclick = () => {
-            var script = this.editor.getValue();
-            var encoded = JavascriptUrlParser.encode(script)
-            //state.bookmark.url = encoded
-            this.$emit('save', encoded)
-          }
-          return btn;
-        },
-        getId(){
-          return 'save-btn'
-        },
-        getPosition(){
-          return {
-            preference: 0
-          }
+      EditorHelper.addBtn(this.editor, {
+        text: 'Save',
+        id: 'save-btn',
+        onClick: () => {
+          var script = this.editor.getValue();
+          var encoded = JSParser.encode(script)
+          //state.bookmark.url = encoded
+          this.$emit('save', encoded)
         }
       })
     }

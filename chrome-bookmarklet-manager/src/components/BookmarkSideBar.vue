@@ -26,11 +26,6 @@ export default {
     return {
       sharedState: this.$root.$data.sharedState
     }
-  },
-  methods: {
-  },
-  mounted(){
-    console.log(this.bookmarks)
   }
 };
 </script>

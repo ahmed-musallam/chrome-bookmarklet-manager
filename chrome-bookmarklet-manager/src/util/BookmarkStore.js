@@ -14,9 +14,7 @@ const BookmarkStore = {
 
 function getBookmarks() {
   chrome.bookmarks.getTree((bookmarks) => {
-    console.log("chrome has ",bookmarks)
     BookmarkStore.state.bookmarks = bookmarks[0].children;
-    console.log("BookmarkStore.state.bookmarks", BookmarkStore.state.bookmarks)
   })
 }
 chrome.bookmarks.onCreated.addListener(getBookmarks)

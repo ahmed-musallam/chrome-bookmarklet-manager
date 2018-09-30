@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import BookmarkStore from './util/BookmarkStore'
+import Toasted from 'vue-toasted';
+Vue.use(Toasted)
 
 Vue.config.productionTip = false
 

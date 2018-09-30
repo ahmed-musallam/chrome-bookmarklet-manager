@@ -26,7 +26,6 @@ export default {
   },
   data () {
     return {
-      // use shared state from root Vue instance
       sharedState: this.$root.$data.sharedState
     }
   },
@@ -47,6 +46,7 @@ export default {
       // split view of the first direct children of root element of this component
       const children = this.$el.children;
       Split([children[0], children[1]], {
+        sizes: [25, 75],
         gutterSize: 10,
         cursor: 'col-resize',
         // TODO: optimize this.
@@ -54,8 +54,20 @@ export default {
       });
     },
     handleEditorSave(url){
-      chrome.bookmarks.update(this.sharedState.currentBookmark.id, {url: url}, function(){
-        console.log("updated!") // TODO - use toast
+
+      chrome.bookmarks.update(this.sharedState.currentBookmark.id, {url: url}, () => {
+        this.$toasted.show('Bookmark Saved!', {
+          position: 'bottom-right',
+          duration: '2000',
+          type: 'success',
+          action : {
+            text : 'dismiss',
+            onClick : (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          },
+          icon : '✓'
+        })
       })
     }
   },
@@ -75,6 +87,7 @@ html,
 body,
 main {
     height: 100%;
+    margin: 0;
 }
 
 body {

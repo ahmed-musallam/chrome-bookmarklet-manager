@@ -1,7 +1,6 @@
 const jsPrefix = "javascript:";
 export default class JavascriptUrlParser {
   static isValid(url){
-    console.log("validating ", url)
     // is string
     if (typeof url == 'string' || url instanceof String) {
       return url.trim().startsWith(jsPrefix)

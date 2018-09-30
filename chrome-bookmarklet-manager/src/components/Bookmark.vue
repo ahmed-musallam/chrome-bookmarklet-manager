@@ -1,9 +1,10 @@
 <template>
 <div>
     <button
-      :class="{'edit' : !isFolder, 'folder' : isFolder, 'bookmark-btn': true }"
+      class="bookmark-btn"
+      :class="{'edit' : !isFolder, 'folder' : isFolder, 'focus': isSelected }"
       @click="editBookmark">
-      <span class="icon">{{ icon }}</span> {{ bookmark.title }}
+      <span class="icon" :class="{'larger' : isBookmarklet}">{{ icon }}</span> {{ bookmark.title }}
     </button>
     <div :class="{'open' : open, 'bookmark-children': true }">
       <Bookmark 
@@ -26,34 +27,48 @@ export default {
     return {
       sharedState: this.$root.$data.sharedState,
       isFolder: false,
-      open: false
+      open: false,
+      isBookmarklet: false
     }
   },
   computed: {
-    icon: function () {
+    icon () {
+      let icon = "";
       if (this.isFolder) {
-        if (this.open) return "◢";
-        else return  "◥";
+        icon = this.open ?  "◢" : "◥";
       } 
-      else return "🔗";
+      else {
+        icon = this.isBookmarklet ?  "JS" : "🔗";
+      }
+      return icon;
+    },
+    isSelected () {
+      if (this.isFolder) return false;
+      else return this.sharedState.currentBookmark.url === this.bookmark.url
     }
   },
   // TODO - use active or sth
   mounted () {
     // chrome bookmarks have `url` property omitted
     this.isFolder = this.bookmark && !this.bookmark.hasOwnProperty('url');
+    this.isBookmarklet = !this.isFolder && JavascriptUrlParser.isValid(this.bookmark.url)
   },
   methods: {
+    /**
+     * Open/Close folder
+     */
     toggleFolder () {
-      console.log("toggleFolder")
       this.open = !this.open;
     },
+    /**
+     * handles bookmark click. If folder, toggle it. if not edit it.
+     */
     editBookmark () {
-      console.log(this.bookmark)
       if (this.isFolder) {
         this.toggleFolder();
       } else {
         // set global currentBookmark to the selected bookmark
+        // yes, yes... mutating a shared global state. This app is simple enough, that I don't care :)
         this.sharedState.currentBookmark = this.bookmark;
       }
     },
@@ -93,7 +108,7 @@ export default {
   background: none;
   float: left;
   border: none;
-  color: #fefefe;
+  color: #d4d4d4;
   outline: 0;
   margin-left: 0;
   font-size: 1.1em;
@@ -101,13 +116,14 @@ export default {
   width: calc(100% - 15px);
   padding-left: 0.5em;
   padding-right: 0.5em;
+  margin: 0.1em 0px;
 }
 
 .bookmark-btn:not(.folder):hover {
     background: #3f71ae30;
 }
 
-.bookmark-btn:not(.folder):focus{
+.bookmark-btn:not(.folder):focus, .bookmark-btn.focus:not(.folder){
     background: #34649e;
 }
 
@@ -117,7 +133,9 @@ export default {
   width: 15px;
   display: inline-block;
 }
-
+.bookmark-btn > .icon.larger {
+  font-size: 9px;
+}
 .no-padding {
     padding: 0;
 }
