@@ -11,7 +11,7 @@ export default class JavascriptUrlParser {
     if(JavascriptUrlParser.isValid(url)){
       const encodedJS = url.trim().replace(jsPrefix, "")
       return decodeURIComponent(encodedJS)
-    } else throw new Error(`Invalid Javascript Psudo URL: ${url}`)
+    } else return url;
   }
   static encode(script){
     const encodedJs = encodeURIComponent(script)
