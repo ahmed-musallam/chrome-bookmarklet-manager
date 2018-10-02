@@ -18,6 +18,8 @@
 
 <script>
 import JavascriptUrlParser from '../util/JavascriptUrlParser'
+import Storage from '../util/Storage'
+
 export default {
   name: "Bookmark",
   props: [
@@ -52,6 +54,10 @@ export default {
     // chrome bookmarks have `url` property omitted
     this.isFolder = this.bookmark && !this.bookmark.hasOwnProperty('url');
     this.isBookmarklet = !this.isFolder && JavascriptUrlParser.isValid(this.bookmark.url)
+    // get stored bookmark state
+    Storage.get(this.bookmark.id, (item) => {
+      this.open = item[this.bookmark.id];
+    });
   },
   methods: {
     /**
@@ -59,6 +65,9 @@ export default {
      */
     toggleFolder () {
       this.open = !this.open;
+      Storage.set({
+        [this.bookmark.id]: this.open
+      });
     },
     /**
      * handles bookmark click. If folder, toggle it. if not edit it.

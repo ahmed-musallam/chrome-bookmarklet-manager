@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build ",
-    "dev": "vue-cli-service build --watch --mode=development",
+    "build": "vue-cli-service build",
+    "dev": "vue-cli-service build --watch --mode=development --report",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
+    "monaco-editor-webpack-plugin": "^1.5.4",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {

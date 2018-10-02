@@ -8,6 +8,7 @@ export default class EditorHelper {
    * Set worker urls.
    * Those are particularly set this way since that's where webpack outputs them in the extension
    */
+  /*
   static initWorkerUrls () {
     const PREFIX = "./app/";
     self.MonacoEnvironment = {
@@ -22,12 +23,13 @@ export default class EditorHelper {
           return PREFIX + "html.worker.js";
         }
         if (label === "typescript" || label === "javascript") {
-          return PREFIX + "ts.worker.js";
+          return PREFIX + "typescript.worker.js";
         }
         return PREFIX + "editor.worker.js";
       }
     };
   }
+  */
   /**
    * Default editor configs
    */
@@ -37,12 +39,7 @@ export default class EditorHelper {
       theme: "vs-dark",
       minimap: {
         enabled: false
-      },
-      codeLens: false,
-      hover: {
-        enabled: false
-      },
-      dragAndDrop: false
+      }
     }
   }
   static create (el) {
@@ -59,7 +56,7 @@ export default class EditorHelper {
    * }
    */
   static addBtn (editor, options) {
-    editor.addOverlayWidget({
+    return editor.addOverlayWidget({
       getDomNode: () => {
         var btn = document.createElement('button');
         btn.innerHTML = options.text;

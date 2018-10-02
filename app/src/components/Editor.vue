@@ -1,10 +1,25 @@
 <template>
-  <div class="editor" id="editor"></div>
+  <div class="container">
+    <!--
+    <Options>
+      <Button>
+        Save
+      </Button>
+      <Button>
+        New
+      </Button>
+    </Options>
+    -->
+    <div class="editor" ref="editor"></div>
+  </div>
 </template>
 
 <script>
 import EditorHelper from '../util/EditorHelper'
+import Storage from '../util/Storage'
 import JSParser  from '../util/JavascriptUrlParser'
+import Options from './Options'
+import Button from './Button'
 
 export default {
   name: "Editor",
@@ -12,6 +27,10 @@ export default {
     return {
       sharedState: this.$root.$data.sharedState
     }
+  },
+   components: {
+    Options,
+    Button
   },
   mounted () {
     /**
@@ -26,8 +45,8 @@ export default {
   methods: {
     init () {
       // Set worker urls here, before creating an editor
-      EditorHelper.initWorkerUrls();
-      this.editor = EditorHelper.create(this.$el)
+      // EditorHelper.initWorkerUrls();
+      this.editor = EditorHelper.create(this.$refs.editor)
       // add overlay widget might not need it.
       this.addSaveBtn()
     },
@@ -35,16 +54,22 @@ export default {
       this.editor.layout()
     },
     addSaveBtn () {
+      
       EditorHelper.addBtn(this.editor, {
         text: 'Save',
         id: 'save-btn',
         onClick: () => {
+          Storage.getAll(function (all) {
+            console.log(all)
+          });/*
           var script = this.editor.getValue();
           var encoded = JSParser.encode(script)
           //state.bookmark.url = encoded
           this.$emit('save', encoded)
+          */
         }
-      })
+      }) 
+      
     }
   }
 };
@@ -52,7 +77,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.editor, .editor > .monaco-editor {
+.container, .editor, .editor > .monaco-editor {
   height: 100%;
   width:100%;
   overflow: hidden;

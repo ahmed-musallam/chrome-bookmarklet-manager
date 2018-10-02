@@ -1,3 +1,5 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
 module.exports = {
   baseUrl: "./app/",
   outputDir: "../ext/options/app",
@@ -9,12 +11,18 @@ module.exports = {
       globalObject: 'self',
       filename: '[name].js'
     },
+    plugins: [
+      new MonacoWebpackPlugin({
+       // output: "../ext/options/app",
+        languages: ['javascript', 'typescript'],
+      })
+    ],
     entry: {
-      "editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
-      "json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
-      "css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
-      "html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
-      "ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker',
+    //  "editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
+    //  "json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
+    //  "css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
+    //  "html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
+    //  "ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker',
     },
   }
 }
