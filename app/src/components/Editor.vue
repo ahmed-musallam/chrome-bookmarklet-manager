@@ -16,7 +16,7 @@
 
 <script>
 import EditorHelper from '../util/EditorHelper'
-import Storage from '../util/Storage'
+// import Storage from '../util/Storage'
 import JSParser  from '../util/JavascriptUrlParser'
 import Options from './Options'
 import Button from './Button'
@@ -53,20 +53,30 @@ export default {
     layout () {
       this.editor.layout()
     },
+    showSuccess() {
+      this.$toasted.show('Bookmark Saved!', {
+        position: 'bottom-right',
+        duration: '2000',
+        type: 'success',
+        action : {
+          text : 'dismiss',
+          onClick : (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        },
+        icon : '✓'
+      })
+    },
     addSaveBtn () {
-      
       EditorHelper.addBtn(this.editor, {
         text: 'Save',
         id: 'save-btn',
         onClick: () => {
-          Storage.getAll(function (all) {
-            console.log(all)
-          });/*
           var script = this.editor.getValue();
           var encoded = JSParser.encode(script)
-          //state.bookmark.url = encoded
-          this.$emit('save', encoded)
-          */
+          chrome.bookmarks.update(this.sharedState.currentBookmark.id, {url: encoded}, () => {
+            this.showSuccess()
+          })
         }
       }) 
       

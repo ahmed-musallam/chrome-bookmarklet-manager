@@ -7,7 +7,7 @@
     </div>
     <div id="editor-container" class="split split-horizontal">
       <div class="split content">
-        <Editor ref="editor" @save="handleEditorSave"/>
+        <Editor ref="editor"/>
       </div>
     </div>
   </main>
@@ -52,23 +52,6 @@ export default {
         // TODO: optimize this.
         onDrag: () => { this.layoutEditor() }
       });
-    },
-    handleEditorSave(url){
-
-      chrome.bookmarks.update(this.sharedState.currentBookmark.id, {url: url}, () => {
-        this.$toasted.show('Bookmark Saved!', {
-          position: 'bottom-right',
-          duration: '2000',
-          type: 'success',
-          action : {
-            text : 'dismiss',
-            onClick : (e, toastObject) => {
-              toastObject.goAway(0);
-            }
-          },
-          icon : '✓'
-        })
-      })
     }
   },
   /**

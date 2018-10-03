@@ -12,3 +12,14 @@ TODO - add this feature
 ### Editing bookmarklets
 
 
+## Development
+### building
+
+```
+cd app
+npm run build
+
+```
+
+then import extention (`ext` folder) to your chrome.
+
