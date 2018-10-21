@@ -2,7 +2,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   baseUrl: "./app/",
-  outputDir: "../ext/options/app",
+  outputDir: "ext/options/app",
   configureWebpack: {
     // Chrome extensions do not support `eval` thus we chose an appropriate devtool
     // see: https://webpack.js.org/configuration/devtool/

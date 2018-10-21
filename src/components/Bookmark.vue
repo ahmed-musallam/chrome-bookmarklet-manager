@@ -5,10 +5,16 @@
       :class="{'edit' : !isFolder, 'folder' : isFolder, 'focus': isSelected }"
       @click="editBookmark">
       <span class="icon" :class="{'larger' : isBookmarklet}">{{ icon }}</span> {{ bookmark.title }}
+      <div
+        v-if="isFolder" 
+        class="actions">
+          <button @click.stop="addBookmarklet">+</button>
+      </div>
     </button>
-    <div :class="{'open' : open, 'bookmark-children': true }">
-      <Bookmark 
-        v-if="bookmark.children" 
+    <div
+      v-if="bookmark.children"
+      :class="{'open' : open, 'bookmark-children': true }">
+      <Bookmark
         v-for="bkmrk in getValidChildren()"
         :key="bkmrk.id"
         :bookmark="bkmrk"/>
@@ -49,9 +55,8 @@ export default {
       else return this.sharedState.currentBookmark.url === this.bookmark.url
     }
   },
-  // TODO - use active or sth
   mounted () {
-    // chrome bookmarks have `url` property omitted
+    // chrome bookmark folders have `url` property omitted
     this.isFolder = this.bookmark && !this.bookmark.hasOwnProperty('url');
     this.isBookmarklet = !this.isFolder && JavascriptUrlParser.isValid(this.bookmark.url)
     // get stored bookmark state
@@ -91,7 +96,9 @@ export default {
       else {
         return this.bookmark.children
       }
-      
+    },
+    addBookmarklet () {
+      console.log("adding new bookmark to", this.bookmark);
     }
   }
 };
@@ -99,7 +106,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.bookmark{
+.bookmark {
   display: block;
   background: none;
   color: #d4d2cd;
@@ -126,9 +133,10 @@ export default {
   padding-left: 0.5em;
   padding-right: 0.5em;
   margin: 0.1em 0px;
+  position: relative;
 }
 
-.bookmark-btn:not(.folder):hover {
+.bookmark-btn:hover {
     background: #3f71ae30;
 }
 
@@ -152,5 +160,24 @@ export default {
 .bookmark-toggle.folder {
   cursor: pointer;
 }
-
+/* Folder Actions */
+.actions {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.actions button {
+  background: #0000;
+  color: #fff;
+  border: none;
+  font-size: 1.1em;
+  outline: none;
+}
+.actions button:hover {
+  background: #34649e;
+}
+.bookmark-btn.folder:hover .actions {
+  display: block;
+}
 </style>
