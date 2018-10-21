@@ -17,7 +17,7 @@ TODO - add this feature
 
 ```
 cd app
-npm run build
+npm run dev
 
 ```
 
