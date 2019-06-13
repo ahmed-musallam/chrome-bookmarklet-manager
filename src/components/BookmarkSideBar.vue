@@ -1,6 +1,6 @@
 <template>
   <div>
-  <!--
+    <!--
     <Options>
       <Checkbox 
         v-model="sharedState.config.bookmarkletsOnly"
@@ -9,10 +9,11 @@
     </Options>
   -->
     <h2>Bookmarklets</h2>
-    <Bookmark 
+    <Bookmark
       v-for="bookmark in sharedState.bookmarks"
       :bookmark="bookmark"
-      :key="bookmark.id"/>
+      :key="bookmark.id"
+    />
   </div>
 </template>
 

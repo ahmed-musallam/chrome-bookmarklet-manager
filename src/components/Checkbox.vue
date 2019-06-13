@@ -1,10 +1,7 @@
 <template>
-  <label class="container">{{text}}
-    <input 
-      type="checkbox"
-      :checked="checked"
-      :value="value"
-      @change="change">
+  <label class="container"
+    >{{ text }}
+    <input type="checkbox" :checked="checked" :value="value" @change="change" />
     <span class="checkmark"></span>
   </label>
 </template>

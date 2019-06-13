@@ -2,11 +2,11 @@
   <dialog ref="dialog">
     <h1>Add new Bookmark</h1>
     <label for="title">Title:</label>
-    <input id="title" v-model="title" type="text"/>
-      <menu>
-        <button @click="cancel">Cancel</button>
-        <button @click="confirm">Confirm</button>
-      </menu>
+    <input id="title" v-model="title" type="text" />
+    <menu>
+      <button @click="cancel">Cancel</button>
+      <button @click="confirm">Confirm</button>
+    </menu>
   </dialog>
 </template>
 

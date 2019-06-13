@@ -1,23 +1,26 @@
 <template>
-<div>
+  <div>
     <button
       class="bookmark-btn"
-      :class="{'edit' : !isFolder, 'folder' : isFolder, 'focus': isSelected }"
-      @click="editBookmark">
-      <span class="icon" :class="{'larger' : isBookmarklet}">{{ icon }}</span> {{ bookmark.title }}
-      <div
-        class="actions">
-          <button v-if="isFolder" @click.stop="addBookmarklet">+</button>
-          <button v-if="!isFolder" @click.stop="removeBookmarklet">⌫</button>
+      :class="{ edit: !isFolder, folder: isFolder, focus: isSelected }"
+      @click="editBookmark"
+    >
+      <span class="icon" :class="{ larger: isBookmarklet }">{{ icon }}</span>
+      {{ bookmark.title }}
+      <div class="actions">
+        <button v-if="isFolder" @click.stop="addBookmarklet">+</button>
+        <button v-if="!isFolder" @click.stop="removeBookmarklet">⌫</button>
       </div>
     </button>
     <div
       v-if="bookmark.children"
-      :class="{'open' : open, 'bookmark-children': true }">
+      :class="{ open: open, 'bookmark-children': true }"
+    >
       <Bookmark
         v-for="bkmrk in getValidChildren()"
         :key="bkmrk.id"
-        :bookmark="bkmrk"/>
+        :bookmark="bkmrk"
+      />
     </div>
   </div>
 </template>

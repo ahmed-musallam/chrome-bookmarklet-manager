@@ -1,10 +1,13 @@
 <template>
   <dialog ref="dialog">
-      <h3>Are you sure you want to remove the bookmaklet: <i>{{name}}</i>?</h3>
-      <menu>
-        <button @click="no">no</button>
-        <button @click="yes">yes</button>
-      </menu>
+    <h3>
+      Are you sure you want to remove the bookmaklet: <i>{{ name }}</i
+      >?
+    </h3>
+    <menu>
+      <button @click="no">no</button>
+      <button @click="yes">yes</button>
+    </menu>
   </dialog>
 </template>
 

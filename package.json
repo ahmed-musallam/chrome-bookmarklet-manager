@@ -11,18 +11,18 @@
   "dependencies": {
     "monaco-editor": "^0.14.3",
     "p-event": "^4.1.0",
-    "split.js": "^1.5.5",
-    "vue": "^2.5.17",
-    "vue-toasted": "^1.1.25"
+    "split.js": "^1.5.11",
+    "vue": "^2.6.10",
+    "vue-toasted": "^1.1.27"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.5",
-    "@vue/cli-plugin-eslint": "^3.0.5",
-    "@vue/cli-service": "^3.0.5",
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-service": "^3.8.3",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "monaco-editor-webpack-plugin": "^1.5.4",
-    "vue-template-compiler": "^2.5.17"
+    "monaco-editor-webpack-plugin": "^1.7.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,

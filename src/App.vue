@@ -2,16 +2,15 @@
   <main id="app">
     <div id="bookmarks-container" class="split split-horizontal">
       <div class="split content no-padding">
-      <BookmarkSideBar/>
+        <BookmarkSideBar />
       </div>
     </div>
     <div id="editor-container" class="split split-horizontal">
       <div class="split content">
-        <Editor ref="editor"/>
+        <Editor ref="editor" />
       </div>
     </div>
   </main>
-
 </template>
 
 <script>
