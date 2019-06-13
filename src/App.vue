@@ -11,18 +11,21 @@
       </div>
     </div>
   </main>
+
 </template>
 
 <script>
 import Editor from './components/Editor.vue'
 import BookmarkSideBar from './components/BookmarkSideBar'
-import Split from "split.js"
+import Split from 'split.js'
+import AddBookmarkletDialog from './components/AddBookmarkletDialog'
 
 export default {
   name: 'app',
   components: {
     Editor,
-    BookmarkSideBar
+    BookmarkSideBar,
+    AddBookmarkletDialog
   },
   data () {
     return {

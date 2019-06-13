@@ -6,9 +6,9 @@
       @click="editBookmark">
       <span class="icon" :class="{'larger' : isBookmarklet}">{{ icon }}</span> {{ bookmark.title }}
       <div
-        v-if="isFolder" 
         class="actions">
-          <button @click.stop="addBookmarklet">+</button>
+          <button v-if="isFolder" @click.stop="addBookmarklet">+</button>
+          <button v-if="!isFolder" @click.stop="removeBookmarklet">⌫</button>
       </div>
     </button>
     <div
@@ -24,7 +24,11 @@
 
 <script>
 import JavascriptUrlParser from '../util/JavascriptUrlParser'
+import DynamicComponent from '../util/DynamicComponent'
 import Storage from '../util/Storage'
+import AddBookmarkletDialog from './AddBookmarkletDialog'
+import RemoveBookmarkletDialog from './RemoveBookmarkletDialog'
+import pEvent from 'p-event';
 
 export default {
   name: "Bookmark",
@@ -97,8 +101,47 @@ export default {
         return this.bookmark.children
       }
     },
+    async promptToAddBookmarklet() {
+      const instance = DynamicComponent.createAppendComponent(AddBookmarkletDialog)
+      instance.showDialog();
+      // wait for dialog-ready event which the dialog component will emit
+      await pEvent(instance.$el, 'add-dialog-closed')
+      const name  = instance.getName()
+      // destroy and remove
+      DynamicComponent.destroyAndRemoveCompoennt(instance);
+      // return the name
+      return name;
+    },
+    async promptToRemoveBookmarklet() {
+      const instance = DynamicComponent.createAppendComponent(RemoveBookmarkletDialog, {data: {name: this.bookmark.title}})
+      instance.showDialog();
+      // wait for dialog-ready event which the dialog component will emit
+      await pEvent(instance.$el, 'remove-dialog-closed')
+      const del = instance.getDelete()
+      // destroy and remove
+      DynamicComponent.destroyAndRemoveCompoennt(instance);
+      // return the name
+      return del;
+    },
+    removeBookmarklet () {
+      this.promptToRemoveBookmarklet()
+      .then(del => {
+        if (del) {
+          console.log("Deleting bookmark ", this.bookmark);
+          chrome.bookmarks.remove(this.bookmark.id, () => console.log("Deleted!"))
+        } else console.log("Nothing was deleted.")
+      })
+    },
     addBookmarklet () {
-      console.log("adding new bookmark to", this.bookmark);
+      this.promptToAddBookmarklet()
+      .then(name => {
+        console.log("creating bookmark with name:  "+ name +" under bookmark " + this.bookmark);
+        chrome.bookmarks.create({
+          parentId:  this.bookmark.id,
+          title: name,
+          url: 'javascript:'
+        }, b => console.log("Created", b))
+      })
     }
   }
 };
@@ -177,7 +220,7 @@ export default {
 .actions button:hover {
   background: #34649e;
 }
-.bookmark-btn.folder:hover .actions {
+.bookmark-btn:hover .actions {
   display: block;
 }
 </style>
