@@ -62,6 +62,7 @@ export default {
         position: "bottom-right",
         duration: "2000",
         type: "success",
+        class: "toast",
         action: {
           text: "dismiss",
           onClick: (e, toastObject) => {
@@ -71,6 +72,21 @@ export default {
         icon: "✓"
       });
     },
+    showError() {
+      this.$toasted.show("Please Select a Bookmark", {
+        position: "bottom-right",
+        duration: "2000",
+        type: "error",
+        class: "toast",
+        action: {
+          text: "dismiss",
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        },
+        icon: "✘"
+      });
+    },
     addSaveBtn() {
       EditorHelper.addBtn(this.editor, {
         text: "Save",
@@ -78,13 +94,17 @@ export default {
         onClick: () => {
           var script = this.editor.getValue();
           var encoded = JSParser.encode(script);
-          chrome.bookmarks.update(
-            this.sharedState.currentBookmark.id,
-            { url: encoded },
-            () => {
-              this.showSuccess();
-            }
-          );
+          if (!this.sharedState.currentBookmark) {
+            this.showError();
+          } else {
+            chrome.bookmarks.update(
+              this.sharedState.currentBookmark.id,
+              { url: encoded },
+              () => {
+                this.showSuccess();
+              }
+            );
+          }
         }
       });
     }
