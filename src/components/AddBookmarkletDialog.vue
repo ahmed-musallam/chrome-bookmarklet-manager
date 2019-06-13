@@ -15,7 +15,7 @@ export default {
     name: ""
   }),
   methods: {
-    showDialog(){
+    showDialog() {
       this.$refs.dialog.showModal();
     },
     cancel() {
@@ -27,15 +27,13 @@ export default {
     },
     close() {
       this.$refs.dialog.close();
-      this.$refs.dialog.dispatchEvent(new Event('add-dialog-closed'));
+      this.$refs.dialog.dispatchEvent(new Event("add-dialog-closed"));
     },
     getName() {
       return this.name;
     }
   }
-}
+};
 </script>
 <style scoped>
-
 </style>
-

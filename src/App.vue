@@ -15,56 +15,58 @@
 </template>
 
 <script>
-import Editor from './components/Editor.vue'
-import BookmarkSideBar from './components/BookmarkSideBar'
-import Split from 'split.js'
-import AddBookmarkletDialog from './components/AddBookmarkletDialog'
+import Editor from "./components/Editor.vue";
+import BookmarkSideBar from "./components/BookmarkSideBar";
+import Split from "split.js";
+import AddBookmarkletDialog from "./components/AddBookmarkletDialog";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     Editor,
     BookmarkSideBar,
     AddBookmarkletDialog
   },
-  data () {
+  data() {
     return {
       sharedState: this.$root.$data.sharedState
-    }
+    };
   },
   methods: {
-    getEditor () {
+    getEditor() {
       return this.$refs.editor;
     },
-    initEditor () {
+    initEditor() {
       this.getEditor().init();
     },
-    layoutEditor () {
+    layoutEditor() {
       this.getEditor().layout();
     },
     /**
      * Use Split.js to show split View
      */
-    split () {
+    split() {
       // split view of the first direct children of root element of this component
       const children = this.$el.children;
       Split([children[0], children[1]], {
         sizes: [25, 75],
         gutterSize: 10,
-        cursor: 'col-resize',
+        cursor: "col-resize",
         // TODO: optimize this.
-        onDrag: () => { this.layoutEditor() }
+        onDrag: () => {
+          this.layoutEditor();
+        }
       });
     }
   },
   /**
    * Component is rendered, call split and initialize editor
    */
-  mounted () {
-    this.split()
-    this.initEditor()
+  mounted() {
+    this.split();
+    this.initEditor();
   }
-}
+};
 </script>
 
 <style>
@@ -72,14 +74,14 @@ export default {
 html,
 body,
 main {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 body {
-    padding: 8px;
-    background-color: #1e1e1e;
-    box-sizing: border-box;
+  padding: 8px;
+  background-color: #1e1e1e;
+  box-sizing: border-box;
 }
 .split {
   -webkit-box-sizing: border-box;
@@ -104,12 +106,12 @@ body {
 
 .gutter.gutter-vertical {
   cursor: row-resize;
-  background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=')
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
 }
 
 .gutter.gutter-horizontal {
   cursor: col-resize;
-  background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==')
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
 }
 
 .split.split-horizontal,

@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import Bookmark from './Bookmark'
-import Checkbox from './Checkbox'
-import Options from './Options'
+import Bookmark from "./Bookmark";
+import Checkbox from "./Checkbox";
+import Options from "./Options";
 
 export default {
   name: "BookmarkSideBar",
@@ -29,17 +29,17 @@ export default {
     Checkbox,
     Options
   },
-  data () {
+  data() {
     return {
       sharedState: this.$root.$data.sharedState
-    }
+    };
   }
 };
 </script>
 
 <style scoped>
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0.25em;
-  }
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
 </style>

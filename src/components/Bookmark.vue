@@ -23,48 +23,46 @@
 </template>
 
 <script>
-import JavascriptUrlParser from '../util/JavascriptUrlParser'
-import DynamicComponent from '../util/DynamicComponent'
-import Storage from '../util/Storage'
-import AddBookmarkletDialog from './AddBookmarkletDialog'
-import RemoveBookmarkletDialog from './RemoveBookmarkletDialog'
-import pEvent from 'p-event';
+import JavascriptUrlParser from "../util/JavascriptUrlParser";
+import DynamicComponent from "../util/DynamicComponent";
+import Storage from "../util/Storage";
+import AddBookmarkletDialog from "./AddBookmarkletDialog";
+import RemoveBookmarkletDialog from "./RemoveBookmarkletDialog";
+import pEvent from "p-event";
 
 export default {
   name: "Bookmark",
-  props: [
-    "bookmark"
-  ],
-  data () {
+  props: ["bookmark"],
+  data() {
     return {
       sharedState: this.$root.$data.sharedState,
       isFolder: false,
       open: false,
       isBookmarklet: false
-    }
+    };
   },
   computed: {
-    icon () {
+    icon() {
       let icon = "";
       if (this.isFolder) {
-        icon = this.open ?  "◢" : "◥";
-      } 
-      else {
-        icon = this.isBookmarklet ?  "JS" : "🔗";
+        icon = this.open ? "◢" : "◥";
+      } else {
+        icon = this.isBookmarklet ? "JS" : "🔗";
       }
       return icon;
     },
-    isSelected () {
+    isSelected() {
       if (this.isFolder) return false;
-      else return this.sharedState.currentBookmark.url === this.bookmark.url
+      else return this.sharedState.currentBookmark.url === this.bookmark.url;
     }
   },
-  mounted () {
+  mounted() {
     // chrome bookmark folders have `url` property omitted
-    this.isFolder = this.bookmark && !this.bookmark.hasOwnProperty('url');
-    this.isBookmarklet = !this.isFolder && JavascriptUrlParser.isValid(this.bookmark.url)
+    this.isFolder = this.bookmark && !this.bookmark.hasOwnProperty("url");
+    this.isBookmarklet =
+      !this.isFolder && JavascriptUrlParser.isValid(this.bookmark.url);
     // get stored bookmark state
-    Storage.get(this.bookmark.id, (item) => {
+    Storage.get(this.bookmark.id, item => {
       this.open = item[this.bookmark.id];
     });
   },
@@ -72,7 +70,7 @@ export default {
     /**
      * Open/Close folder
      */
-    toggleFolder () {
+    toggleFolder() {
       this.open = !this.open;
       Storage.set({
         [this.bookmark.id]: this.open
@@ -81,7 +79,7 @@ export default {
     /**
      * handles bookmark click. If folder, toggle it. if not edit it.
      */
-    editBookmark () {
+    editBookmark() {
       if (this.isFolder) {
         this.toggleFolder();
       } else {
@@ -90,58 +88,71 @@ export default {
         this.sharedState.currentBookmark = this.bookmark;
       }
     },
-    getValidChildren () {
+    getValidChildren() {
       if (!this.bookmark.children) return;
 
       if (this.sharedState.config.bookmarkletsOnly) {
-        return this.bookmark.children
-        .filter(c => !c.hasOwnProperty('url') || JavascriptUrlParser.isValid(c.url) );
-      }
-      else {
-        return this.bookmark.children
+        return this.bookmark.children.filter(
+          c => !c.hasOwnProperty("url") || JavascriptUrlParser.isValid(c.url)
+        );
+      } else {
+        return this.bookmark.children;
       }
     },
     async promptToAddBookmarklet() {
-      const instance = DynamicComponent.createAppendComponent(AddBookmarkletDialog)
+      const instance = DynamicComponent.createAppendComponent(
+        AddBookmarkletDialog
+      );
       instance.showDialog();
       // wait for dialog-ready event which the dialog component will emit
-      await pEvent(instance.$el, 'add-dialog-closed')
-      const name  = instance.getName()
+      await pEvent(instance.$el, "add-dialog-closed");
+      const name = instance.getName();
       // destroy and remove
       DynamicComponent.destroyAndRemoveCompoennt(instance);
       // return the name
       return name;
     },
     async promptToRemoveBookmarklet() {
-      const instance = DynamicComponent.createAppendComponent(RemoveBookmarkletDialog, {data: {name: this.bookmark.title}})
+      const instance = DynamicComponent.createAppendComponent(
+        RemoveBookmarkletDialog,
+        { data: { name: this.bookmark.title } }
+      );
       instance.showDialog();
       // wait for dialog-ready event which the dialog component will emit
-      await pEvent(instance.$el, 'remove-dialog-closed')
-      const del = instance.getDelete()
+      await pEvent(instance.$el, "remove-dialog-closed");
+      const del = instance.getDelete();
       // destroy and remove
       DynamicComponent.destroyAndRemoveCompoennt(instance);
       // return the name
       return del;
     },
-    removeBookmarklet () {
-      this.promptToRemoveBookmarklet()
-      .then(del => {
+    removeBookmarklet() {
+      this.promptToRemoveBookmarklet().then(del => {
         if (del) {
           console.log("Deleting bookmark ", this.bookmark);
-          chrome.bookmarks.remove(this.bookmark.id, () => console.log("Deleted!"))
-        } else console.log("Nothing was deleted.")
-      })
+          chrome.bookmarks.remove(this.bookmark.id, () =>
+            console.log("Deleted!")
+          );
+        } else console.log("Nothing was deleted.");
+      });
     },
-    addBookmarklet () {
-      this.promptToAddBookmarklet()
-      .then(name => {
-        console.log("creating bookmark with name:  "+ name +" under bookmark " + this.bookmark);
-        chrome.bookmarks.create({
-          parentId:  this.bookmark.id,
-          title: name,
-          url: 'javascript:'
-        }, b => console.log("Created", b))
-      })
+    addBookmarklet() {
+      this.promptToAddBookmarklet().then(name => {
+        console.log(
+          "creating bookmark with name:  " +
+            name +
+            " under bookmark " +
+            this.bookmark
+        );
+        chrome.bookmarks.create(
+          {
+            parentId: this.bookmark.id,
+            title: name,
+            url: "javascript:"
+          },
+          b => console.log("Created", b)
+        );
+      });
     }
   }
 };
@@ -180,11 +191,12 @@ export default {
 }
 
 .bookmark-btn:hover {
-    background: #3f71ae30;
+  background: #3f71ae30;
 }
 
-.bookmark-btn:not(.folder):focus, .bookmark-btn.focus:not(.folder){
-    background: #34649e;
+.bookmark-btn:not(.folder):focus,
+.bookmark-btn.focus:not(.folder) {
+  background: #34649e;
 }
 
 .bookmark-btn > .icon {
@@ -197,7 +209,7 @@ export default {
   font-size: 9px;
 }
 .no-padding {
-    padding: 0;
+  padding: 0;
 }
 
 .bookmark-toggle.folder {

@@ -1,7 +1,7 @@
 /**
  * A few helpers for editor... the Editor component was getting too large :)
  */
-import * as monaco from 'monaco-editor';
+import * as monaco from "monaco-editor";
 
 export default class EditorHelper {
   /**
@@ -33,21 +33,21 @@ export default class EditorHelper {
   /**
    * Default editor configs
    */
-  static getConfig () {
+  static getConfig() {
     return {
-      language: 'javascript',
+      language: "javascript",
       theme: "vs-dark",
       minimap: {
         enabled: false
       }
-    }
+    };
   }
-  static create (el) {
-    return monaco.editor.create(el, EditorHelper.getConfig())
+  static create(el) {
+    return monaco.editor.create(el, EditorHelper.getConfig());
   }
   /**
    * Add an overlay button to the editor
-   * @param {*} editor 
+   * @param {*} editor
    * @param {*} options
    * {
    *  text: 'the button text',
@@ -55,22 +55,22 @@ export default class EditorHelper {
    *  id: 'id' // the id
    * }
    */
-  static addBtn (editor, options) {
+  static addBtn(editor, options) {
     return editor.addOverlayWidget({
       getDomNode: () => {
-        var btn = document.createElement('button');
+        var btn = document.createElement("button");
         btn.innerHTML = options.text;
-        btn.onclick = options.onClick
+        btn.onclick = options.onClick;
         return btn;
       },
-      getId(){
-        return options.id
+      getId() {
+        return options.id;
       },
-      getPosition(){
+      getPosition() {
         return {
           preference: 0
-        }
+        };
       }
-    })
+    });
   }
 }

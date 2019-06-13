@@ -16,28 +16,26 @@ export default {
     delete: false
   }),
   methods: {
-    showDialog(){
+    showDialog() {
       this.$refs.dialog.showModal();
     },
     no() {
-      this.delete = false
-      this.close()
+      this.delete = false;
+      this.close();
     },
     yes() {
-      this.delete = true
-      this.close()
+      this.delete = true;
+      this.close();
     },
     close() {
       this.$refs.dialog.close();
-      this.$refs.dialog.dispatchEvent(new Event('remove-dialog-closed'));
+      this.$refs.dialog.dispatchEvent(new Event("remove-dialog-closed"));
     },
-    getDelete () {
+    getDelete() {
       return this.delete;
     }
   }
-}
+};
 </script>
 <style scoped>
-
 </style>
-

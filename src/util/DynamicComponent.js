@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 export default class DynamicComponent {
   static createAppendComponent(component, config) {
     // new instance
@@ -10,7 +10,7 @@ export default class DynamicComponent {
     return instance;
   }
   static destroyAndRemoveCompoennt(instance) {
-    if (!instance) return
+    if (!instance) return;
     instance.$destroy();
     instance.$el.parentNode.removeChild(instance.$el);
   }
