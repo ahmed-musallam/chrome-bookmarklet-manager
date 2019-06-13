@@ -106,11 +106,11 @@ export default {
       instance.showDialog();
       // wait for dialog-ready event which the dialog component will emit
       await pEvent(instance.$el, "add-dialog-closed");
-      const name = instance.getName();
+      const title = instance.getTitle();
       // destroy and remove
       DynamicComponent.destroyAndRemoveCompoennt(instance);
       // return the name
-      return name;
+      return title;
     },
     async promptToRemoveBookmarklet() {
       const instance = DynamicComponent.createAppendComponent(
@@ -137,17 +137,16 @@ export default {
       });
     },
     addBookmarklet() {
-      this.promptToAddBookmarklet().then(name => {
+      this.promptToAddBookmarklet().then(title => {
+        if (!title) return;
         console.log(
-          "creating bookmark with name:  " +
-            name +
-            " under bookmark " +
-            this.bookmark
+          `creating bookmark with name: ${title} under bookmark`,
+          this.bookmark
         );
         chrome.bookmarks.create(
           {
             parentId: this.bookmark.id,
-            title: name,
+            title: title,
             url: "javascript:"
           },
           b => console.log("Created", b)
@@ -231,6 +230,9 @@ export default {
 }
 .actions button:hover {
   background: #34649e;
+}
+.bookmark-btn.focus .actions button:hover {
+  background: #1d1d1d;
 }
 .bookmark-btn:hover .actions {
   display: block;
