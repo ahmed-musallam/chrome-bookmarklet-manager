@@ -1,6 +1,6 @@
 # :bookmark: Chrome Bookmarklet Manager
 
-A chrome extension to edit [bookmarkelts](https://en.wikipedia.org/wiki/Bookmarklet) with the [monaco editor](https://microsoft.github.io/monaco-editor/).
+A chrome extension to edit [bookmarklets](https://en.wikipedia.org/wiki/Bookmarklet) with the [monaco editor](https://microsoft.github.io/monaco-editor/).
 
 ![bookmarklet manager demo](docs/bookmarklets-manager.gif)
 
